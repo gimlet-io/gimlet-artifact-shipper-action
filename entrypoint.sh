@@ -13,7 +13,6 @@ BRANCH=${GITHUB_REF##*/}
 
 EVENT="push"
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
-echo $GITHUB_BASE_REF
 if [[ -n "$GITHUB_BASE_REF" ]];
 then
     EVENT="pr"
@@ -75,7 +74,10 @@ done
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
 gimlet artifact add -f artifact.json $VARS
 
-cat artifact.json
+if [ $2 = "true" ]; then
+    cat artifact.json
+    exit 0
+fi
 
 ARTIFACT_ID=$(gimlet artifact push -f artifact.json)
 if [ $? -ne 0 ]; then

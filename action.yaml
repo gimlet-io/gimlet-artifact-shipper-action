@@ -4,6 +4,10 @@ inputs:
   fields:
     description: 'Metadata to attach to the artifact'
     required: false
+  debug:
+    description: 'Set it to true if you want to print the artifact instead of shipping it'
+    required: false
+    default: "false"
 outputs:
   artifact-id:
     description: 'ID of the created artifact'
@@ -12,3 +16,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.fields }}
+    - ${{ inputs.debug }}

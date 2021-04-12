@@ -15,12 +15,12 @@ BRANCH=${GITHUB_REF##*/}
 
 EVENT="push"
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
-if [[ -v CIRCLE_PULL_REQUEST ]];
+if [[ -v GITHUB_BASE_REF ]];
 then
     EVENT="pr"
-    SOURCE_BRANCH=$BRANCH
-    TARGET_BRANCH=todo
-    URL=$CIRCLE_PULL_REQUESTS
+    SOURCE_BRANCH=${GITHUB_BASE_REF##*/}
+    TARGET_BRANCH=${GITHUB_TARGET_REF##*/}
+    URL="TBD"
 fi
 
 if [[ -v CIRCLE_TAG ]];

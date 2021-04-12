@@ -1,0 +1,14 @@
+name: 'Gimlet Artifact Shipper Action'
+description: ''
+inputs:
+  fields:
+    description: 'Metadata to attach to the artifact'
+    required: false
+outputs:
+  artifact-id:
+    description: 'ID of the created artifact'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.fields }}

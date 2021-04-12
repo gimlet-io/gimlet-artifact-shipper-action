@@ -2,8 +2,6 @@
 
 set -e
 
-bash --version
-
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
 COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')

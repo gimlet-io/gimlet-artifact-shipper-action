@@ -1,4 +1,8 @@
-#!/bin/sh -l
+#!/usr/bin/env bash
+
+set -e
+
+bash --version
 
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
@@ -7,12 +11,14 @@ COMMIT_COMITTER=$(git log -1 --pretty=format:'%cn')
 COMMIT_COMITTER_EMAIL=$(git log -1 --pretty=format:'%ce')
 COMMIT_CREATED=$(git log -1 --format=%cI)
 
+BRANCH=${GITHUB_REF##*/}
+
 EVENT="push"
-URL="https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
+URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 if [[ -v CIRCLE_PULL_REQUEST ]];
 then
     EVENT="pr"
-    SOURCE_BRANCH=$CIRCLE_BRANCH
+    SOURCE_BRANCH=$BRANCH
     TARGET_BRANCH=todo
     URL=$CIRCLE_PULL_REQUESTS
 fi
@@ -22,11 +28,9 @@ then
     EVENT="tag"
 fi
 
-VARS=$(printenv | grep CIRCLE | awk '$0="--var "$0')
-
-./gimlet artifact create \
---repository "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" \
---sha "$CIRCLE_SHA1" \
+gimlet artifact create \
+--repository "$GITHUB_REPOSITORY" \
+--sha "$GITHUB_SHA" \
 --created "$COMMIT_CREATED" \
 --branch "$CIRCLE_BRANCH" \
 --event "$EVENT" \
@@ -41,26 +45,43 @@ VARS=$(printenv | grep CIRCLE | awk '$0="--var "$0')
 --url "$URL" \
 > artifact.json
 
-./gimlet artifact add \
+gimlet artifact add \
 -f artifact.json \
 --field "name=CI" \
---field "url=$CIRCLE_BUILD_URL"
+--field "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
-./gimlet artifact add \
--f artifact.json \
---field "name=docker-image" \
---field "url=<< parameters.image-tag >>"
+fields=$(echo $1 | tr ";" "\n")
+for field in $fields
+do
+    # Set the delimiter
+    OLDIFS=$IFS
+    IFS='='
+    #Read the split words into an array based on delimiter
+    read -a key_value <<< "$field"
+    IFS=$OLDIFS
+
+    gimlet artifact add \
+      -f artifact.json \
+      --field "name=${key_value[0]}" \
+      --field "url=${key_value[1]}"
+done
 
 for file in .gimlet/*
 do
     if [[ -f $file ]]; then
-    ./gimlet artifact add -f artifact.json --envFile $file
+    gimlet artifact add -f artifact.json --envFile $file
     fi
 done
 
-./gimlet artifact add -f artifact.json $VARS
-./gimlet artifact push -f artifact.json
+VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
+gimlet artifact add -f artifact.json $VARS
 
-echo "Hello $1"
-time=$(date)
-echo "::set-output name=time::$time"
+cat artifact.json
+
+ARTIFACT_ID=$(gimlet artifact push -f artifact.json)
+if [ $? -ne 0 ]; then
+    echo $ARTIFACT_ID
+    exit 1
+fi
+
+echo "::set-output name=artifact-id::$ARTIFACT_ID"

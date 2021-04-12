@@ -13,7 +13,7 @@ BRANCH=${GITHUB_REF##*/}
 
 EVENT="push"
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
-if [[ -v GITHUB_BASE_REF ]];
+if [[ $GITHUB_BASE_REF -ne "" ]];
 then
     EVENT="pr"
     SOURCE_BRANCH=${GITHUB_BASE_REF##*/}

@@ -24,4 +24,4 @@ jobs:
         fields: 'docker-image=mycompany/myimage:mytag'
         debug: "true"
     - name: Artifact ID
-      run: echo "The time was ${{ steps.demo.outputs.artifact-id }}"
+      run: echo "Artifact ID is ${{ steps.demo.outputs.artifact-id }}"

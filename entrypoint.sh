@@ -75,6 +75,9 @@ done
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
 gimlet artifact add -f artifact.json $VARS
 
+echo "Are we debugging?"
+echo $2
+
 if [ "$2" == "true" ]; then
     cat artifact.json
     exit 0

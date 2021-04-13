@@ -21,7 +21,7 @@ then
     URL="TBD"
 fi
 
-if [[ $GITHUB_REF == /refs/tags/* ]]   # True if $a starts with a "/refs/tags/" (wildcard matching).
+if [[ $GITHUB_REF == refs/tags/* ]]   # True if $GITHUB_REF starts with a "refs/tags/" (wildcard matching).
 then
     TAG=${GITHUB_REF##*/}
     EVENT="tag"

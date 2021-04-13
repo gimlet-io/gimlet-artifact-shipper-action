@@ -2,6 +2,8 @@
 
 set -e
 
+echo "Creating artifact.."
+
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
 COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')
@@ -44,11 +46,13 @@ gimlet artifact create \
 --url "$URL" \
 > artifact.json
 
+echo "Attaching CI run URL.."
 gimlet artifact add \
 -f artifact.json \
 --field "name=CI" \
 --field "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
+echo "Attaching custom fields.."
 fields=$(echo $1 | tr ";" "\n")
 for field in $fields
 do
@@ -65,6 +69,7 @@ do
       --field "url=${key_value[1]}"
 done
 
+echo "Attaching Gimlet manifests.."
 for file in .gimlet/*
 do
     if [[ -f $file ]]; then
@@ -72,21 +77,22 @@ do
     fi
 done
 
+echo "Attaching environment variable context.."
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
 gimlet artifact add -f artifact.json $VARS
-
-echo "Are we debugging?"
-echo $2
 
 if [[ "$2" == "true" ]]; then
     cat artifact.json
     exit 0
 fi
 
+echo "Shipping artifact.."
 ARTIFACT_ID=$(gimlet artifact push -f artifact.json)
 if [ $? -ne 0 ]; then
     echo $ARTIFACT_ID
     exit 1
 fi
+
+echo "Shipped artifact ID is: $ARTIFACT_ID"
 
 echo "::set-output name=artifact-id::$ARTIFACT_ID"

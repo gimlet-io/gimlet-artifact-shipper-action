@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 1
     - name: Demo
       id: demo
-      uses: gimlet-io/gimlet-artifact-shipper-action@v0.3.8
+      uses: gimlet-io/gimlet-artifact-shipper-action@v0.3.9
       with:
         fields: 'docker-image=mycompany/myimage:mytag'
         debug: "true"

@@ -21,8 +21,9 @@ then
     URL="TBD"
 fi
 
-if [[ -v CIRCLE_TAG ]];
+if [[ $GITHUB_REF == /refs/tags/* ]]   # True if $a starts with a "/refs/tags/" (wildcard matching).
 then
+    TAG=${GITHUB_REF##*/}
     EVENT="tag"
 fi
 
@@ -30,11 +31,11 @@ gimlet artifact create \
 --repository "$GITHUB_REPOSITORY" \
 --sha "$GITHUB_SHA" \
 --created "$COMMIT_CREATED" \
---branch "$CIRCLE_BRANCH" \
+--branch "$BRANCH" \
 --event "$EVENT" \
 --sourceBranch "$SOURCE_BRANCH" \
 --targetBranch "$TARGET_BRANCH" \
---tag "$CIRCLE_TAG" \
+--tag "$TAG" \
 --authorName "$COMMIT_AUTHOR" \
 --authorEmail "$COMMIT_AUTHOR_EMAIL" \
 --committerName "$COMMIT_COMITTER" \

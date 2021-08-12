@@ -14,6 +14,7 @@ COMMIT_CREATED=$(git log -1 --format=%cI)
 BRANCH=${GITHUB_HEAD_REF} # For PRs this var has the branch, see https://docs.github.com/en/actions/reference/environment-variables
 if [ -z "$BRANCH" ]; then BRANCH=${GITHUB_REF##*/}; fi
 export GITHUB_BRANCH=$BRANCH
+# TODO check if head sha is better suited for the workflows: https://github.community/t/github-sha-isnt-the-value-expected/17903/2
 
 EVENT="push"
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"

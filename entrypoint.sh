@@ -11,7 +11,8 @@ COMMIT_COMITTER=$(git log -1 --pretty=format:'%cn')
 COMMIT_COMITTER_EMAIL=$(git log -1 --pretty=format:'%ce')
 COMMIT_CREATED=$(git log -1 --format=%cI)
 
-BRANCH=${GITHUB_REF##*/}
+BRANCH=${GITHUB_HEAD_REF} # For PRs this var has the branch, see https://docs.github.com/en/actions/reference/environment-variables
+if [ -z "$BRANCH" ]; then BRANCH=${GITHUB_REF##*/}; fi
 export GITHUB_BRANCH=$BRANCH
 
 EVENT="push"

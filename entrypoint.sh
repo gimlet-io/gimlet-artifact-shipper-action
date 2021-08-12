@@ -12,6 +12,7 @@ COMMIT_COMITTER_EMAIL=$(git log -1 --pretty=format:'%ce')
 COMMIT_CREATED=$(git log -1 --format=%cI)
 
 BRANCH=${GITHUB_REF##*/}
+export GITHUB_BRANCH=$BRANCH
 
 EVENT="push"
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"

@@ -2,12 +2,12 @@ name: Build
 on:
   push:
     branches:
-      - '*'
+      - 'main'
+      - 'fix/robust-branch-extraction'
 
   pull_request:
     branches:
-      - 'main'
-      - 'fix/robust-branch-extraction'
+      - ''
 
   create:
     tags:

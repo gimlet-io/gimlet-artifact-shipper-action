@@ -24,7 +24,7 @@ jobs:
         fetch-depth: 1
     - name: Demo
       id: demo
-      uses: gimlet-io/gimlet-artifact-shipper-action@main
+      uses: gimlet-io/gimlet-artifact-shipper-action@fix/robust-branch-extraction
       with:
         fields: 'docker-image=mycompany/myimage:mytag'
         debug: "true"

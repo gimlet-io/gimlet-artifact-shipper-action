@@ -12,7 +12,7 @@ COMMIT_COMITTER_EMAIL=$(git log -1 --pretty=format:'%ce')
 COMMIT_CREATED=$(git log -1 --format=%cI)
 
 BRANCH=${GITHUB_HEAD_REF} # For PRs this var has the branch, see https://docs.github.com/en/actions/reference/environment-variables
-if [ -z "$BRANCH" ]; then BRANCH=${GITHUB_REF##*/}; fi
+if [ -z "$BRANCH" ]; then BRANCH=${GITHUB_REF##refs/heads/}; fi
 export GITHUB_BRANCH=$BRANCH
 # TODO check if head sha is better suited for the workflows: https://github.community/t/github-sha-isnt-the-value-expected/17903/2
 
@@ -28,7 +28,7 @@ fi
 
 if [[ $GITHUB_REF == refs/tags/* ]]   # True if $GITHUB_REF starts with a "refs/tags/" (wildcard matching).
 then
-    TAG=${GITHUB_REF##*/}
+    TAG=${GITHUB_REF##refs/tags/}
     EVENT="tag"
 fi
 

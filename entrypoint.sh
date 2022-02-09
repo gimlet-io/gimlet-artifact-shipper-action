@@ -23,7 +23,8 @@ then
     EVENT="pr"
     SOURCE_BRANCH=$GITHUB_BASE_REF
     TARGET_BRANCH=$GITHUB_TARGET_REF
-    URL="TBD"
+    PR_NUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
+    URL="https://github.com/$GITHUB_REPOSITORY/pull/$PR_NUMBER"
 fi
 
 if [[ $GITHUB_REF == refs/tags/* ]]   # True if $GITHUB_REF starts with a "refs/tags/" (wildcard matching).

@@ -2,6 +2,8 @@
 
 set -e
 
+git version
+
 echo "Creating artifact.."
 
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)

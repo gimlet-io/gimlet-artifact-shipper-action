@@ -3,6 +3,7 @@
 set -e
 
 git version
+git config --global --add safe.directory /github/workspace
 
 echo "Creating artifact.."
 

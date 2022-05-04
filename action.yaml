@@ -1,5 +1,6 @@
 name: 'Gimlet Artifact Shipper Action'
-description: ''
+author: 'Gimlet.io'
+description: 'Ship releasable software artifacts to Gimlet'
 inputs:
   fields:
     description: 'Metadata to attach to the artifact'
@@ -17,3 +18,6 @@ runs:
   args:
     - ${{ inputs.fields }}
     - ${{ inputs.debug }}
+branding:
+  icon: arrow-right
+  color: yellow

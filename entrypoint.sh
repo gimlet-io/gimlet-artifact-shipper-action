@@ -26,6 +26,9 @@ if [[ -n "$GITHUB_BASE_REF" ]];
 then
     echo "This is a PR"
     echo $3
+    echo $INPUT_BRANCHHEAD
+    echo $INPUT_DEBUG
+    echo $INPUT_FIELDS
     EVENT="pr"
     SHA=$3
     SOURCE_BRANCH=$GITHUB_BASE_REF

@@ -24,6 +24,8 @@ SHA=$GITHUB_SHA
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 if [[ -n "$GITHUB_BASE_REF" ]];
 then
+    echo "This is a PR"
+    echo $3
     EVENT="pr"
     SHA=$3
     SOURCE_BRANCH=$GITHUB_BASE_REF

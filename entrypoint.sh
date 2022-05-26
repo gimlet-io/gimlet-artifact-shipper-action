@@ -20,10 +20,12 @@ export GITHUB_BRANCH=$BRANCH
 # TODO check if head sha is better suited for the workflows: https://github.community/t/github-sha-isnt-the-value-expected/17903/2
 
 EVENT="push"
+SHA=$GITHUB_SHA
 URL="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 if [[ -n "$GITHUB_BASE_REF" ]];
 then
     EVENT="pr"
+    SHA=$3
     SOURCE_BRANCH=$GITHUB_BASE_REF
     TARGET_BRANCH=$GITHUB_TARGET_REF
     PR_NUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
@@ -38,7 +40,7 @@ fi
 
 gimlet artifact create \
 --repository "$GITHUB_REPOSITORY" \
---sha "$GITHUB_SHA" \
+--sha "$SHA" \
 --created "$COMMIT_CREATED" \
 --branch "$BRANCH" \
 --event "$EVENT" \

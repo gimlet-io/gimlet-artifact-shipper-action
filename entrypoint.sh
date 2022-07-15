@@ -76,8 +76,10 @@ do
       -f artifact.json \
       --field "name=${key_value[0]}" \
       --field "url=${key_value[1]}" \
-      --field "GITHUB_ACTION_REF=$GITHUB_REF_NAME" \
-      --field "GITHUB_SHA=$GITHUB_SHA"
+      --field "CI=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+      --field "REPO=$GITHUB_ACTION_REPOSITORY" \
+      --field "BRANCH=$GITHUB_REF_NAME" \
+      --field "SHA=$GITHUB_SHA"
 done
 
 echo "Attaching Gimlet manifests.."

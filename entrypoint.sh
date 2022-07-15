@@ -75,7 +75,9 @@ do
     gimlet artifact add \
       -f artifact.json \
       --field "name=${key_value[0]}" \
-      --field "url=${key_value[1]}"
+      --field "url=${key_value[1]}" \
+      --field "GITHUB_ACTION_REF=$GITHUB_REF_NAME" \
+      --field "GITHUB_SHA=$GITHUB_SHA"
 done
 
 echo "Attaching Gimlet manifests.."
@@ -88,8 +90,6 @@ done
 
 echo "Attaching environment variable context.."
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
-echo $GITHUB_REF_NAME
-echo $GITHUB_SHA
 gimlet artifact add -f artifact.json $VARS
 
 if [[ "$INPUT_DEBUG" == "true" ]]; then

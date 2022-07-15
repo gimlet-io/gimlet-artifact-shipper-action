@@ -88,7 +88,8 @@ done
 
 echo "Attaching environment variable context.."
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
-echo $VARS
+echo $GITHUB_REF_NAME
+echo $GITHUB_SHA
 gimlet artifact add -f artifact.json $VARS
 
 if [[ "$INPUT_DEBUG" == "true" ]]; then

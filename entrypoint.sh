@@ -58,7 +58,8 @@ gimlet artifact create \
 echo "Attaching CI run URL.."
 gimlet artifact add \
 -f artifact.json \
---field "CI=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+--field "name=CI" \
+--field "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
 echo "Attaching custom fields.."
 fields=$(echo $INPUT_FIELDS | tr ";" "\n")

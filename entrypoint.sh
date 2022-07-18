@@ -76,12 +76,6 @@ do
       -f artifact.json \
       --field "name=${key_value[0]}" \
       --field "url=${key_value[1]}"
-
-    gimlet artifact add \
-      -f artifact.json \
-      --var "REPO=$GITHUB_ACTION_REPOSITORY" \
-      --var "BRANCH=$GITHUB_REF_NAME" \
-      --var "SHA=$GITHUB_SHA"
 done
 
 echo "Attaching Gimlet manifests.."
@@ -93,9 +87,15 @@ do
 done
 
 echo "Attaching environment variable context.."
-VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
-gimlet artifact add -f artifact.json $VARS
-
+gimlet artifact add \
+-f artifact.json \
+--var "REPO=$GITHUB_REPOSITORY" \
+--var "OWNER=$GITHUB_REPOSITORY_OWNER" \
+--var "BRANCH=$GITHUB_REF_NAME" \
+--var "SHA=$GITHUB_SHA" \
+--var "ACTOR=$GITHUB_ACTOR" \
+--var "EVENT=$EVENT_NAME" \
+--var "JOB=$GITHUB_JOB"
 if [[ "$INPUT_DEBUG" == "true" ]]; then
     cat artifact.json
     exit 0

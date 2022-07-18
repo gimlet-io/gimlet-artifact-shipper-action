@@ -58,8 +58,7 @@ gimlet artifact create \
 echo "Attaching CI run URL.."
 gimlet artifact add \
 -f artifact.json \
---field "name=CI" \
---field "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+--field "CI=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
 echo "Attaching custom fields.."
 fields=$(echo $INPUT_FIELDS | tr ";" "\n")
@@ -75,11 +74,13 @@ do
     gimlet artifact add \
       -f artifact.json \
       --field "name=${key_value[0]}" \
-      --field "url=${key_value[1]}" \
-      --field "CI=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
-      --field "REPO=$GITHUB_ACTION_REPOSITORY" \
-      --field "BRANCH=$GITHUB_REF_NAME" \
-      --field "SHA=$GITHUB_SHA"
+      --field "url=${key_value[1]}"
+
+    gimlet artifact add \
+      -f artifact.json \
+      --var "REPO=$GITHUB_ACTION_REPOSITORY" \
+      --var "BRANCH=$GITHUB_REF_NAME" \
+      --var "SHA=$GITHUB_SHA"
 done
 
 echo "Attaching Gimlet manifests.."

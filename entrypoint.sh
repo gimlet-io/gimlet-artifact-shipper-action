@@ -94,7 +94,7 @@ gimlet artifact add \
 --var "BRANCH=$GITHUB_REF_NAME" \
 --var "SHA=$GITHUB_SHA" \
 --var "ACTOR=$GITHUB_ACTOR" \
---var "EVENT=$EVENT_NAME" \
+--var "EVENT=$GITHUB_EVENT_NAME" \
 --var "JOB=$GITHUB_JOB"
 if [[ "$INPUT_DEBUG" == "true" ]]; then
     cat artifact.json

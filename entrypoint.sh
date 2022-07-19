@@ -94,7 +94,8 @@ gimlet artifact add \
 -f artifact.json \
 --var "REPO=$GITHUB_REPOSITORY" \
 --var "OWNER=$GITHUB_REPOSITORY_OWNER" \
---var "BRANCH=$GITHUB_REF_NAME" \
+--var "BRANCH=$BRANCH" \
+--var "TAG=$TAG" \
 --var "SHA=$GITHUB_SHA" \
 --var "ACTOR=$GITHUB_ACTOR" \
 --var "EVENT=$GITHUB_EVENT_NAME" \

@@ -87,6 +87,9 @@ do
 done
 
 echo "Attaching environment variable context.."
+VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
+gimlet artifact add -f artifact.json $VARS
+
 gimlet artifact add \
 -f artifact.json \
 --var "REPO=$GITHUB_REPOSITORY" \

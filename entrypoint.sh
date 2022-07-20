@@ -90,6 +90,7 @@ echo "Attaching environment variable context.."
 VARS=$(printenv | grep GITHUB | grep -v '=$' | awk '$0="--var "$0')
 gimlet artifact add -f artifact.json $VARS
 
+echo "Attaching common Gimlet variables.."
 gimlet artifact add \
 -f artifact.json \
 --var "REPO=$GITHUB_REPOSITORY" \
@@ -100,6 +101,7 @@ gimlet artifact add \
 --var "ACTOR=$GITHUB_ACTOR" \
 --var "EVENT=$GITHUB_EVENT_NAME" \
 --var "JOB=$GITHUB_JOB"
+
 if [[ "$INPUT_DEBUG" == "true" ]]; then
     cat artifact.json
     exit 0

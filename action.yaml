@@ -10,8 +10,7 @@ inputs:
     required: false
     default: "false"
   branchHead:
-    description: |
-      Branch commit sha for PRs. $GITHUB_SHA contains the merge head sha for PRs, which is a sha that Gimlet doesn't know about
+    description: "Branch commit sha for PRs. $GITHUB_SHA contains the merge head sha for PRs, which is a sha that Gimlet doesn't know about"
     default: ${{ github.event.pull_request.head.sha }}
     required: false
 outputs:

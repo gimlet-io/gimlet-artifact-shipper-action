@@ -108,7 +108,7 @@ if [[ "$INPUT_DEBUG" == "true" ]]; then
 fi
 
 echo "Shipping artifact.."
-ARTIFACT_ID=$(gimlet artifact push -f artifact.json)
+ARTIFACT_ID=$(gimlet artifact push -f artifact.json --output json | jq -r '.id' )
 if [ $? -ne 0 ]; then
     echo $ARTIFACT_ID
     exit 1

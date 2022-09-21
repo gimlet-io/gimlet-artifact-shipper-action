@@ -121,13 +121,21 @@ echo "::set-output name=artifact-id::$ARTIFACT_ID"
 while true; do
     artifact_json=$(gimlet release track --output json $ARTIFACT_ID)
     artifact_status=$(echo $artifact_json | jq -r '.status')
-    artifact_gitops_hashes_number=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[]' | wc -l)
-    artifact_gitops_hash_failed_number=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Failed" | wc -l)
-    artifact_gitops_hashes_succeeded_number=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Succeeded" | wc -l)
+    artifact_gitops_hashes_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[]' | wc -l)
+    artifact_gitops_hash_failed_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Failed" | wc -l)
+    artifact_gitops_hashes_succeeded_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Succeeded" | wc -l)
 
-    if [[ "$artifact_status" == "error" ||
-    "$artifact_gitops_hash_failed_number" -gt 0 ||
-    "$artifact_gitops_hashes_number" -eq "$artifact_gitops_hashes_succeeded_number" ]];then
+    echo $artifact_json
+
+    if [[ "$artifact_status" == "new" ]];then
+        gimlet release track $ARTIFACT_ID
+    elif [[ "$artifact_status" == "error" ||
+    "$artifact_gitops_hash_failed_count" -gt 0 ||
+    "$artifact_gitops_hashes_count" -eq "$artifact_gitops_hashes_succeeded_count" ]];then
+        echo $artifact_status
+        echo $artifact_gitops_hashes_count
+        echo $artifact_gitops_hash_failed_count
+        echo $artifact_gitops_hashes_succeeded_count
         break
     else
         gimlet release track $ARTIFACT_ID

@@ -124,6 +124,8 @@ while true; do
     artifact_gitops_hashes_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[]' | wc -l)
     artifact_gitops_hash_failed_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Failed" | wc -l)
     artifact_gitops_hashes_succeeded_count=$(echo $artifact_json | jq -r '.gitopsHashes' | jq -c '.[].status' | grep "Succeeded" | wc -l)
+    artifact_results_count=$(echo $artifact_json | jq -r '.results' | jq -c '.[]' | wc -l)
+    artifact_results_succeeded_count=$(echo $artifact_json | jq -r '.results' | jq -c '.[].status' | grep "success" | wc -l)
 
     echo $artifact_json
 
@@ -131,17 +133,20 @@ while true; do
         gimlet release track $ARTIFACT_ID
     elif [[ "$artifact_status" == "error" ||
     "$artifact_gitops_hash_failed_count" -gt 0 ||
-    "$artifact_gitops_hashes_count" -eq "$artifact_gitops_hashes_succeeded_count" ]];then
+    "$artifact_gitops_hashes_count" -eq "$artifact_gitops_hashes_succeeded_count" ||
+    "$artifact_results_count" -eq "$artifact_results_succeeded_count" ]];then
         echo $artifact_status
         echo $artifact_gitops_hashes_count
         echo $artifact_gitops_hash_failed_count
         echo $artifact_gitops_hashes_succeeded_count
+        echo $artifact_results_count
+        echo $artifact_results_succeeded_count
         break
     else
         gimlet release track $ARTIFACT_ID
     fi
 
-    sleep 2
+    sleep 5
 done
 
 gimlet release track $ARTIFACT_ID

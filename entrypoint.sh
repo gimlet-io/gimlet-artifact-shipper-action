@@ -132,13 +132,11 @@ while true; do
 
     echo $artifact_json
 
-    if [[ "$artifact_status" == "new" ]];then
-        gimlet release track $ARTIFACT_ID
-    elif [[ "$artifact_status" == "error" ||
+    if [[ "$artifact_status" == "error" ||
     "$artifact_gitops_hash_failed_count" -gt 0 ||
     "$artifact_gitops_hashes_count" -eq "$artifact_gitops_hashes_succeeded_count" ||
     "$artifact_result_failed_count" -gt 0 ||
-    "$artifact_results_count" -eq "$artifact_result_succeeded_count" ]];then
+    "$artifact_results_count" -eq "$artifact_result_succeeded_count" ]] && [[ "$artifact_status" != "new" ]];then
         break
     else
         gimlet release track $ARTIFACT_ID

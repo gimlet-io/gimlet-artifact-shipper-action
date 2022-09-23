@@ -130,8 +130,6 @@ while true; do
     artifact_result_failed_count=$(echo $artifact_json | jq -r '.results' | jq -c '.[].gitopsCommitStatus' | grep "Failed" | wc -l)
     artifact_result_succeeded_count=$(echo $artifact_json | jq -r '.results' | jq -c '.[].gitopsCommitStatus' | grep "Succeeded" | wc -l)
 
-    echo $artifact_json
-
     if [[ "$artifact_status" == "error" ||
     "$artifact_gitops_hash_failed_count" -gt 0 ||
     "$artifact_gitops_hashes_count" -eq "$artifact_gitops_hashes_succeeded_count" ||

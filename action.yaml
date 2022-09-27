@@ -13,8 +13,8 @@ inputs:
     description: "Branch commit sha for PRs. $GITHUB_SHA contains the merge head sha for PRs, which is a sha that Gimlet doesn't know about"
     default: ${{ github.event.pull_request.head.sha }}
     required: false
-  watch:
-    description: 'Set it to true if you want to watch tracking the artifact'
+  wait:
+    description: 'Set it to true if you want to watch tracking the artifact and wait until got success or error'
     required: false
     default: "false"
   timeout:
@@ -30,7 +30,7 @@ runs:
   args:
     - ${{ inputs.fields }}
     - ${{ inputs.debug }}
-    - ${{ inputs.watch }}
+    - ${{ inputs.wait }}
     - ${{ inputs.timeout }}
 branding:
   icon: arrow-right

@@ -118,7 +118,7 @@ echo "Shipped artifact ID is: $ARTIFACT_ID"
 
 echo "::set-output name=artifact-id::$ARTIFACT_ID"
 
-if [[ "$INPUT_WATCH" == "true" ]]; then
+if [[ "$INPUT_WAIT" == "true" ]]; then
     gimlet artifact track --wait --timeout $INPUT_TIMEOUT $ARTIFACT_ID
 else
     gimlet artifact track $ARTIFACT_ID

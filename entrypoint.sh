@@ -118,4 +118,15 @@ echo "Shipped artifact ID is: $ARTIFACT_ID"
 
 echo "::set-output name=artifact-id::$ARTIFACT_ID"
 
-gimlet release track --wait $ARTIFACT_ID
+echo Testing inputs...
+
+echo $INPUT_WATCH
+
+echo $INPUT_TIMEOUT
+
+if [[ "$INPUT_WATCH" == "true" ]]; then
+    # TODO --timeout $INPUT_TIMEOUT
+    gimlet artifact track --wait $ARTIFACT_ID
+else
+    gimlet artifact track $ARTIFACT_ID
+fi

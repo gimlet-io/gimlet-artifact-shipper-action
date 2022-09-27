@@ -125,8 +125,7 @@ echo $INPUT_WATCH
 echo $INPUT_TIMEOUT
 
 if [[ "$INPUT_WATCH" == "true" ]]; then
-    # TODO --timeout $INPUT_TIMEOUT
-    gimlet artifact track --wait $ARTIFACT_ID
+    gimlet artifact track --wait --timeout $INPUT_TIMEOUT $ARTIFACT_ID
 else
     gimlet artifact track $ARTIFACT_ID
 fi

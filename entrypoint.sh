@@ -125,7 +125,8 @@ else
 fi
 
 if [[ "$INPUT_DEPLOY" == "true" ]]; then
+    echo "Deploying.."
     RELEASE_ID=$(gimlet release make --artifact $ARTIFACT_ID --env $INPUT_ENV --app $INPUT_APP --output json | jq -r '.id')
-    echo $RELEASE_ID
+    echo "Deployment ID is: $RELEASE_ID"
     gimlet release track --wait --timeout $INPUT_TIMEOUT $RELEASE_ID
 fi

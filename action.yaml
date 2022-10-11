@@ -21,6 +21,16 @@ inputs:
     description: 'Set the time for wait flag of artifact track'
     required: false
     default: "10m"
+  deploy:
+    description: 'Set it to true if you want deploy an artifact to an environment'
+    required: false
+    default: "false"
+  env:
+    description: 'If $DEPLOY is set to true, deployment will take place to this environment'
+    required: false
+  app:
+    description: 'If $DEPLOY is set to true, this app will be deployed to $ENV'
+    required: false
 outputs:
   artifact-id:
     description: 'ID of the created artifact'

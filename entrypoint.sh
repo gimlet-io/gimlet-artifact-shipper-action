@@ -125,5 +125,6 @@ else
 fi
 
 if [[ "$INPUT_DEPLOY" == "true" ]]; then
-    gimlet release make --wait --timeout $INPUT_TIMEOUT --artifact $ARTIFACT_ID --env $INPUT_ENV --app $INPUT_APP
+    RELEASE_ID=$(gimlet release make --artifact $ARTIFACT_ID --env $INPUT_ENV --app $INPUT_APP)
+    gimlet release track --wait --timeout $INPUT_TIMEOUT $RELEASE_ID
 fi

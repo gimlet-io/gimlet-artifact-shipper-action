@@ -13,6 +13,24 @@ inputs:
     description: "Branch commit sha for PRs. $GITHUB_SHA contains the merge head sha for PRs, which is a sha that Gimlet doesn't know about"
     default: ${{ github.event.pull_request.head.sha }}
     required: false
+  wait:
+    description: 'Set it to true if you want to watch tracking the artifact and wait until got success or error'
+    required: false
+    default: "false"
+  timeout:
+    description: 'Set the time for wait flag of artifact track'
+    required: false
+    default: "10m"
+  deploy:
+    description: 'Set it to true if you want deploy an artifact to an environment'
+    required: false
+    default: "false"
+  env:
+    description: 'If $DEPLOY is set to true, deployment will take place to this environment'
+    required: false
+  app:
+    description: 'If $DEPLOY is set to true, this app will be deployed to $ENV'
+    required: false
 outputs:
   artifact-id:
     description: 'ID of the created artifact'
@@ -22,6 +40,8 @@ runs:
   args:
     - ${{ inputs.fields }}
     - ${{ inputs.debug }}
+    - ${{ inputs.wait }}
+    - ${{ inputs.timeout }}
 branding:
   icon: arrow-right
   color: yellow

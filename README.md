@@ -29,7 +29,7 @@ jobs:
         fetch-depth: 1
     - name: Shipping release artifact to Gimlet
       id: shipping
-      uses: gimlet-io/gimlet-artifact-shipper-action@v0.6.0
+      uses: gimlet-io/gimlet-artifact-shipper-action@v0.8.3
       env:
         GIMLET_SERVER: ${{ secrets.GIMLET_SERVER }}
         GIMLET_TOKEN: ${{ secrets.GIMLET_TOKEN }}
@@ -37,4 +37,4 @@ jobs:
       run: echo "Artifact ID is ${{ steps.shipping.outputs.artifact-id }}"
 ```
 
-See on [https://gimlet.io/gimletd/creating-artifacts/](https://gimlet.io/gimletd/creating-artifacts/)
+See in action on https://github.com/gimlet-io/github-actions-integration-sample/

@@ -17,24 +17,25 @@ on:
       - 'main'
 
 jobs:
-  shipping-artifact:
+  build:
     runs-on: ubuntu-latest
-    name: "Shipping artifact"
-    needs:
-    - docker-build
     steps:
     - name: Check out
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
+    - name: Build
+      run: |
+        echo "Here comes your build command"
+    - name: Container image
+      run: |
+        echo "Here you build your container image"
     - name: Shipping release artifact to Gimlet
       id: shipping
       uses: gimlet-io/gimlet-artifact-shipper-action@v0.8.3
       env:
         GIMLET_SERVER: ${{ secrets.GIMLET_SERVER }}
         GIMLET_TOKEN: ${{ secrets.GIMLET_TOKEN }}
-    - name: Artifact ID
-      run: echo "Artifact ID is ${{ steps.shipping.outputs.artifact-id }}"
 ```
 
 See in action on https://github.com/gimlet-io/github-actions-integration-sample/

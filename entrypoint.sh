@@ -102,6 +102,7 @@ gimlet artifact add \
 --var "EVENT=$GITHUB_EVENT_NAME" \
 --var "JOB=$GITHUB_JOB"
 
+echo "Attaching variables file.."
 vars_file=".gimlet/.env"
 if [[ -f $vars_file ]]; then
     gimlet artifact add -f artifact.json --varsFile $vars_file

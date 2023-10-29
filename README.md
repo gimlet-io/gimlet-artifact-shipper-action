@@ -30,9 +30,9 @@ jobs:
     - name: Container image
       run: |
         echo "Here you build your container image"
-    - name: Shipping release artifact to Gimlet
-      id: shipping
-      uses: gimlet-io/gimlet-artifact-shipper-action@v0.8.3
+    - name: Deploy with Gimlet
+      id: deploy
+      uses: gimlet-io/gimlet-artifact-shipper-action@v0.9.0
       env:
         GIMLET_SERVER: ${{ secrets.GIMLET_SERVER }}
         GIMLET_TOKEN: ${{ secrets.GIMLET_TOKEN }}

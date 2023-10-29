@@ -79,8 +79,13 @@ do
 done
 
 echo "Attaching Gimlet manifests.."
+vars_file=".gimlet/vars"
 for file in .gimlet/*
 do
+    if [[ "$file" == $vars_file ]]; then
+    continue
+    fi
+
     if [[ -f $file ]]; then
     gimlet artifact add -f artifact.json --envFile $file
     fi
@@ -101,6 +106,11 @@ gimlet artifact add \
 --var "ACTOR=$GITHUB_ACTOR" \
 --var "EVENT=$GITHUB_EVENT_NAME" \
 --var "JOB=$GITHUB_JOB"
+
+echo "Attaching variables file.."
+if [[ -f $vars_file ]]; then
+    gimlet artifact add -f artifact.json --varsFile $vars_file
+fi
 
 if [[ "$INPUT_DEBUG" == "true" ]]; then
     cat artifact.json
